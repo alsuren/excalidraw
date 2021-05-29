@@ -3,15 +3,11 @@ import {
   DEFAULT_FONT_FAMILY,
   DEFAULT_FONT_SIZE,
   DEFAULT_TEXT_ALIGN,
-  EXPORT_SCALES,
+  DEFAULT_EXPORT_SCALE
 } from "./constants";
 import { t } from "./i18n";
 import { AppState, NormalizedZoomValue } from "./types";
 import { getDateTime } from "./utils";
-
-const defaultExportScale = EXPORT_SCALES.includes(devicePixelRatio)
-  ? devicePixelRatio
-  : 1;
 
 export const getDefaultAppState = (): Omit<
   AppState,
@@ -44,7 +40,7 @@ export const getDefaultAppState = (): Omit<
     elementType: "selection",
     errorMessage: null,
     exportBackground: true,
-    exportScale: defaultExportScale,
+    exportScale: DEFAULT_EXPORT_SCALE,
     exportEmbedScene: false,
     exportWithDarkMode: false,
     fileHandle: null,
@@ -76,7 +72,7 @@ export const getDefaultAppState = (): Omit<
     viewBackgroundColor: oc.white,
     zenModeEnabled: false,
     zoom: { value: 1 as NormalizedZoomValue, translation: { x: 0, y: 0 } },
-    viewModeEnabled: false,
+    viewModeEnabled: false
   };
 };
 
@@ -93,7 +89,7 @@ const APP_STATE_STORAGE_CONF = (<
   },
   T extends Record<keyof AppState, Values>
 >(
-  config: { [K in keyof T]: K extends keyof AppState ? T[K] : never },
+  config: { [K in keyof T]: K extends keyof AppState ? T[K] : never }
 ) => config)({
   theme: { browser: true, export: false },
   collaborators: { browser: false, export: false },
@@ -157,12 +153,12 @@ const APP_STATE_STORAGE_CONF = (<
   width: { browser: false, export: false },
   zenModeEnabled: { browser: true, export: false },
   zoom: { browser: true, export: false },
-  viewModeEnabled: { browser: false, export: false },
+  viewModeEnabled: { browser: false, export: false }
 });
 
 const _clearAppStateForStorage = <ExportType extends "export" | "browser">(
   appState: Partial<AppState>,
-  exportType: ExportType,
+  exportType: ExportType
 ) => {
   type ExportableKeys = {
     [K in keyof typeof APP_STATE_STORAGE_CONF]: typeof APP_STATE_STORAGE_CONF[K][ExportType] extends true
